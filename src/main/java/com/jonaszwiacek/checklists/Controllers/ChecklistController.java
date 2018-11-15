@@ -3,7 +3,6 @@ package com.jonaszwiacek.checklists.Controllers;
 import com.jonaszwiacek.checklists.Models.Item;
 import com.jonaszwiacek.checklists.Services.ChecklistService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,17 +43,22 @@ public class ChecklistController {
     }
 
     @PostMapping("/{checklist}/items")
-    public ResponseEntity<Long> addItem(@PathVariable String checklist, @RequestBody String itemName) {
-        long itemID = checklistService.addItem(checklist, itemName);
-        if (itemID != -1) {
-            return new ResponseEntity<>(itemID, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.CREATED)
+    public long addItem(@PathVariable String checklist, @RequestBody String itemName) {
+        return checklistService.addItem(checklist, itemName);
     }
 
     @DeleteMapping("/{checklist}/items/{itemId}")
     public String deleteItem(@PathVariable String checklist, @PathVariable long itemId) {
         checklistService.deleteItem(checklist, itemId);
+
+        return "OK.";
+    }
+
+    @PatchMapping("/{checklist}/items/{itemId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public String markItem(@PathVariable String checklist, @PathVariable long itemId, @RequestBody boolean checked) {
+        checklistService.markItem(checklist, itemId, checked);
 
         return "OK.";
     }

@@ -53,8 +53,9 @@ public class ChecklistControllerTest {
                         .is(HttpStatus.OK.value()))
                 .andExpect(content()
                         .json(emptyJSONArray));
-        MvcResult mvcResult = this.mockMvc.perform(post("/lists").content(checklist))
-                .andExpect(status().is(HttpStatus.CREATED.value())).andReturn();
+        this.mockMvc.perform(post("/lists").content(checklist))
+                .andExpect(status()
+                        .is(HttpStatus.CREATED.value()));
 
         this.mockMvc.perform(get("/lists"))
                 .andExpect(status()

@@ -1,4 +1,4 @@
-package com.jonaszwiacek.checklists.Services;
+package com.jonaszwiacek.checklists.Services.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

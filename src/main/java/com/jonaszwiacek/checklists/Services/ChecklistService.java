@@ -3,7 +3,9 @@ package com.jonaszwiacek.checklists.Services;
 import com.jonaszwiacek.checklists.Models.Checklist;
 import com.jonaszwiacek.checklists.Models.Item;
 import com.jonaszwiacek.checklists.Repositories.ChecklistRepository;
-import com.jonaszwiacek.checklists.Repositories.ItemsRepository;
+import com.jonaszwiacek.checklists.Services.Exceptions.ChecklistAlreadyExistsException;
+import com.jonaszwiacek.checklists.Services.Exceptions.ChecklistNotFoundException;
+import com.jonaszwiacek.checklists.Services.Exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,10 @@ import java.util.stream.Collectors;
 @Service
 public class ChecklistService {
     private final ChecklistRepository checklistRepository;
-    private final ItemsRepository itemsRepository;
 
     @Autowired
-    public ChecklistService(ChecklistRepository checklistRepository, ItemsRepository itemsRepository) {
+    public ChecklistService(ChecklistRepository checklistRepository) {
         this.checklistRepository = checklistRepository;
-        this.itemsRepository = itemsRepository;
     }
 
 
@@ -66,7 +66,7 @@ public class ChecklistService {
             checklistRepository.save(checklist);
             return findItemId(checklistName, itemName);
         }
-        return -1;
+        throw new ChecklistNotFoundException();
     }
 
     public void markItem(String checklistName, long itemId, boolean checked) {
