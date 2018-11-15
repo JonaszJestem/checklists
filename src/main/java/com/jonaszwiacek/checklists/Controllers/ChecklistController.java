@@ -24,15 +24,18 @@ public class ChecklistController {
     }
 
     @PostMapping
-    public ResponseEntity addChecklist(@RequestBody String checklist) {
-        int responseStatus = checklistService.newChecklist(checklist);
-        return new ResponseEntity(HttpStatus.valueOf(responseStatus));
+    @ResponseStatus(HttpStatus.CREATED)
+    public String addChecklist(@RequestBody String checklist) {
+        checklistService.newChecklist(checklist);
+
+        return "New checklist inserted.";
     }
 
     @DeleteMapping("/{checklist}")
-    public ResponseEntity removeChecklist(@PathVariable String checklist) {
-        int responseStatus = checklistService.removeChecklist(checklist);
-        return new ResponseEntity(HttpStatus.valueOf(responseStatus));
+    public String deleteChecklist(@PathVariable String checklist) {
+        checklistService.deleteChecklist(checklist);
+
+        return "OK.";
     }
 
     @GetMapping("/{checklist}/items")
@@ -47,5 +50,12 @@ public class ChecklistController {
             return new ResponseEntity<>(itemID, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{checklist}/items/{itemId}")
+    public String deleteItem(@PathVariable String checklist, @PathVariable long itemId) {
+        checklistService.deleteItem(checklist, itemId);
+
+        return "OK.";
     }
 }
