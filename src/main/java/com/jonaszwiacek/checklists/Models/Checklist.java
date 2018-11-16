@@ -10,11 +10,11 @@ public class Checklist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
-    public String name;
     @OneToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "checklist_id")
     private List<Item> items;
+    public String name;
 
 
     public Checklist() {

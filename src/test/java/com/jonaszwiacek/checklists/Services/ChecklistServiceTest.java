@@ -59,7 +59,7 @@ public class ChecklistServiceTest {
         checklistService.addItem(checklist, item);
         List<Item> items = checklistService.getItems(checklist);
 
-        assertEquals("Jabłka", items.get(0).getName());
+        assertEquals("Jabłka", items.get(0).name);
     }
 
     @Test

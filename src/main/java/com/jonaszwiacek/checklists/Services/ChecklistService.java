@@ -73,13 +73,13 @@ public class ChecklistService {
         Checklist checklist = checklistRepository.findByName(checklistName);
 
         List<Item> items = checklist.getItems();
-        Optional<Item> item = items.stream().filter(it -> it.getId() == itemId).findFirst();
+        Optional<Item> item = items.stream().filter(it -> it.id == itemId).findFirst();
 
         if (item.isPresent()) {
             Item retrievedItem = item.get();
             items.remove(retrievedItem);
 
-            retrievedItem.mark(checked);
+            retrievedItem.check(checked);
             items.add(retrievedItem);
 
             checklist.setItems(items);
@@ -94,7 +94,7 @@ public class ChecklistService {
         Checklist checklist = checklistRepository.findByName(checklistName);
 
         List<Item> items = checklist.getItems();
-        Optional<Item> item = items.stream().filter(it -> it.getId() == itemId).findFirst();
+        Optional<Item> item = items.stream().filter(it -> it.id == itemId).findFirst();
 
         if (item.isPresent()) {
             Item retrievedItem = item.get();
@@ -110,8 +110,8 @@ public class ChecklistService {
     private long findItemId(String checklistName, String itemName) {
         Checklist checklist = checklistRepository.findByName(checklistName);
         Optional<Item> item = checklist.getItems().stream()
-                .filter(i -> i.getName().equals(itemName))
+                .filter(it -> it.name.equals(itemName))
                 .findFirst();
-        return item.isPresent() ? item.get().getId() : -1;
+        return item.map(item1 -> item1.id).orElse(-1L);
     }
 }

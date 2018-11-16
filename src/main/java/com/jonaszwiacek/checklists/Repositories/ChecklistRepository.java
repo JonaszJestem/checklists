@@ -16,5 +16,4 @@ public interface ChecklistRepository extends CrudRepository<Checklist, Long> {
     void deleteByName(String name);
 
     boolean existsByName(String name);
-
 }
