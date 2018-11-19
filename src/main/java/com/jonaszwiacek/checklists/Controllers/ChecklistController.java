@@ -57,7 +57,8 @@ public class ChecklistController {
 
     @PatchMapping("/{checklist}/items/{itemId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public String markItem(@PathVariable String checklist, @PathVariable long itemId, @RequestBody boolean checked) {
+    public String markItem(@PathVariable String checklist, @PathVariable long itemId, @RequestBody String shouldBeChecked) {
+        boolean checked = Boolean.parseBoolean(shouldBeChecked);
         checklistService.markItem(checklist, itemId, checked);
 
         return "OK.";
